@@ -165,7 +165,7 @@ class RenderControlMixin:
     """
 
     def render_wait(self, wait: WaitTimeType) -> Self:
-        self._form_data.update({"waitDelay": str(wait)})  # type: ignore[attr-defined,misc]
+        self._form_data.update({"waitDelay": f'{wait}s'})  # type: ignore[attr-defined,misc]
         return self
 
     def render_expr(self, expr: str) -> Self:
