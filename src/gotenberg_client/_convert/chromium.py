@@ -149,6 +149,7 @@ class UrlRoute(
     CustomHTTPHeaderMixin,
     PageOrientMixin,
     MetadataMixin,
+    CookiesMixin,
     BaseSingleFileResponseRoute,
 ):
     """
