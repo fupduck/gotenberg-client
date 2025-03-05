@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MPL-2.0
 import dataclasses
 import enum
+import json
 from typing import Final
 from typing import Optional
 
@@ -293,4 +294,4 @@ class Cookie:
         if self.httpOnly:
             dictionary['httpOnly'] = str(self.httpOnly).lower()
 
-        return str(dictionary)
+        return json.dumps(dictionary)
