@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2023-present Trenton H <rda0128ou@mozmail.com>
 #
 # SPDX-License-Identifier: MPL-2.0
+import json
 import logging
 from pathlib import Path
 from typing import Literal
@@ -23,6 +24,7 @@ from gotenberg_client._convert.common import RenderControlMixin
 from gotenberg_client._types import Self
 from gotenberg_client._utils import FORCE_MULTIPART
 from gotenberg_client._utils import ForceMultipartDict
+from gotenberg_client.options import Cookie
 
 logger = logging.getLogger()
 
@@ -118,6 +120,10 @@ class _RouteWithResources(BaseSingleFileResponseRoute):
 
         return self
 
+class CookiesMixin:
+    def cookies(self, cookies: [Cookie]):
+        self._form_data.update({"cookies": '['+','.join(str(c) for c in cookies)+']'})  # type: ignore[attr-defined,misc]
+        return self
 
 class HtmlRoute(
     PagePropertiesMixin,
@@ -125,6 +131,7 @@ class HtmlRoute(
     RenderControlMixin,
     PageOrientMixin,
     MetadataMixin,
+    CookiesMixin,
     _RouteWithResources,
     _FileBasedRoute,
 ):

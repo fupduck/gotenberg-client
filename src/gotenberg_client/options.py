@@ -243,3 +243,54 @@ class TrappedStatus(str, enum.Enum):
     TRUE = "True"
     FALSE = "False"
     UNKNOWN = "Unknown"
+
+
+@enum.unique
+class CookieSameOriginPolicy(str, enum.Enum):
+    """Enum for cookie same origin policy"""
+
+    STRICT = 'Strict'
+    LAX = 'Lax'
+    NONE = ''
+
+
+
+@dataclasses.dataclass
+class Cookie:
+    """
+    Represents a cookie used with Gotenberg's chromium.
+
+    Attributes:
+        name (str): The name of the cookie
+        value (str): The value of the cookie
+        domain (str): The domain of the cookie
+        path (Optional[str]): The cookie's path.
+        secure (Optional[bool]): Secure cookies are only for https connections.
+        httpOnly (Optional[bool]): Prevent scripts from reading the cookie.
+        same (CookieSameOriginPolicy): Set cookies same-site policy.
+    """
+
+    name: str
+    value: str
+    domain: str
+    path: Optional[str] = None
+    secure: Optional[bool] = None
+    httpOnly: Optional[bool] = None
+    same: CookieSameOriginPolicy = CookieSameOriginPolicy.NONE
+
+    def __str__(self) -> dict[str, str | None]:
+        dictionary = dict(
+            name= self.name,
+            value = self.value,
+            domain = self.domain,
+            same = self.same.value,
+        )
+        if self.path:
+            dictionary['path'] = self.path
+        if self.secure:
+            dictionary['secure'] = str(self.secure).lower()
+        if self.httpOnly:
+            dictionary['httpOnly'] = str(self.httpOnly).lower()
+
+        return str(dictionary)
+
