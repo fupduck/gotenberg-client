@@ -278,13 +278,14 @@ class Cookie:
     httpOnly: Optional[bool] = None
     same: CookieSameOriginPolicy = CookieSameOriginPolicy.NONE
 
-    def __str__(self) -> dict[str, str | None]:
+    def __str__(self) -> str:
         dictionary = dict(
             name= self.name,
             value = self.value,
             domain = self.domain,
-            same = self.same.value,
         )
+        if self.same.value:
+            dictionary['same'] = self.same.value
         if self.path:
             dictionary['path'] = self.path
         if self.secure:
@@ -293,4 +294,3 @@ class Cookie:
             dictionary['httpOnly'] = str(self.httpOnly).lower()
 
         return str(dictionary)
-
